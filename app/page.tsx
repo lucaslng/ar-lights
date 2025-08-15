@@ -2,7 +2,6 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import CameraCapture from "@/components/CameraCapture";
 import ARViewer from "@/components/ARViewer";
 // import { calculateLightPlacements } from '@/lib/lightAlgorithm';
 
