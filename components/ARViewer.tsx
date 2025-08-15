@@ -1,7 +1,7 @@
 // components/ARViewer.tsx
-'use client';
+"use client";
 
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect } from "react";
 
 interface ARViewerProps {
   // lightSuggestions: LightSuggestion[];
@@ -15,31 +15,33 @@ export default function ARViewer({ videoStream }: ARViewerProps) {
     if (!canvasRef.current || !videoStream) return;
 
     const canvas = canvasRef.current;
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    const video = document.createElement('video');
+    const video = document.createElement("video");
     video.srcObject = videoStream;
+    video.autoplay = true;
+    video.playsInline = true; // Important for mobile
+    video.muted = true; // Often required for autoplay to work
     video.play();
 
     const renderFrame = () => {
-      // Draw video frame
       ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-      
+
       // Overlay light suggestions
       // lightSuggestions.forEach(light => {
       //   drawLightMarker(ctx, light);
       // });
-      
+
       requestAnimationFrame(renderFrame);
     };
 
     video.onloadedmetadata = () => {
+      console.log("loaded video");
       canvas.width = video.videoWidth;
       canvas.height = video.videoHeight;
       renderFrame();
     };
-
   }, [videoStream]);
 
   // const drawLightMarker = (ctx: CanvasRenderingContext2D, light: LightSuggestion) => {
@@ -53,7 +55,7 @@ export default function ARViewer({ videoStream }: ARViewerProps) {
   //   ctx.beginPath();
   //   ctx.arc(light.x, light.y, 8, 0, 2 * Math.PI);
   //   ctx.fill();
-    
+
   //   // Add glow effect
   //   ctx.shadowColor = colors[light.type];
   //   ctx.shadowBlur = 10;
@@ -63,27 +65,7 @@ export default function ARViewer({ videoStream }: ARViewerProps) {
 
   return (
     <div className="relative w-full h-full">
-      <canvas 
-        ref={canvasRef}
-        className="w-full h-full object-cover"
-      />
-      <div className="absolute top-4 left-4 bg-black bg-opacity-50 text-white p-4 rounded-lg">
-        <h3 className="font-bold mb-2">Light Suggestions:</h3>
-        <div className="space-y-1">
-          <div className="flex items-center gap-2">
-            <div className="w-3 h-3 bg-yellow-400 rounded-full"></div>
-            <span>String Lights</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="w-3 h-3 bg-red-400 rounded-full"></div>
-            <span>Accent Lights</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="w-3 h-3 bg-blue-400 rounded-full"></div>
-            <span>Icicle Lights</span>
-          </div>
-        </div>
-      </div>
+      <canvas ref={canvasRef} className="w-full h-full object-cover" />
     </div>
   );
 }
