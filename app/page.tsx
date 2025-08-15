@@ -14,7 +14,9 @@ export default function ARViewerPage() {
     if (!stream) {
       navigator.mediaDevices
         .getUserMedia({
-          video: true,
+          video: {
+            facingMode: 'environment'
+          },
           audio: false,
         })
         .then((mediaStream) => {
