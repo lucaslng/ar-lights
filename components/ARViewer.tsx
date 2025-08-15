@@ -37,7 +37,6 @@ export default function ARViewer({ videoStream }: ARViewerProps) {
     };
 
     video.onloadedmetadata = () => {
-      console.log("loaded video");
       canvas.width = video.videoWidth;
       canvas.height = video.videoHeight;
       renderFrame();
