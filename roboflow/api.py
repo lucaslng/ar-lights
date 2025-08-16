@@ -2,6 +2,12 @@
 from inference import InferencePipeline
 from inference.core.interfaces.camera.video_source import VideoFrame
 from typing import TypedDict
+from dotenv import load_dotenv
+from os import getenv
+
+load_dotenv()
+api_key = getenv("ROBOFLOW_API_KEY")
+assert api_key
 
 class Point(TypedDict):
   x: int
@@ -27,7 +33,7 @@ def my_sink(result, video_frame: VideoFrame):
 
 # initialize a pipeline object
 pipeline = InferencePipeline.init_with_workflow(
-    api_key="q8WshZltlxfjlzh98hHQ",
+    api_key=api_key,
     workspace_name="ignition25",
     workflow_id="custom-workflow",
     video_reference=1, # Path to video, device id (int, usually 0 for built in webcams), or RTSP stream url
