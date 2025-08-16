@@ -7,6 +7,9 @@ from pprint import pp
 import cv2
 import json
 import time
+from google import genai
+
+from gemini import gemini
 
 load_dotenv()
 api_key = getenv("ROBOFLOW_API_KEY")
@@ -28,7 +31,7 @@ def my_sink(result, video_frame: VideoFrame):
 	pp(predictions)
 	print('\n\n\n')
 	for prediction in predictions:
-		data[prediction['detection_id']] = {'class': prediction['class'], 'time_in_zone': prediction['time_in_zone'], 'timestamp': time.time()} # type: ignore
+		data[prediction['detection_id']] = {'class': prediction['class'], 'time_in_zone': prediction['time_in_zone'], 'timestamp': time.asctime()} # type: ignore
 
 
 # initialize a pipeline object
@@ -44,4 +47,11 @@ pipeline.start() #start the pipeline
 pipeline.join() #wait for the pipeline thread to finish
 
 print(len(data))
-print(json.dumps(list(data.values())))
+jsons = json.dumps(list(data.values()))
+
+gemini_key = getenv('GEMINI_API_KEY')
+assert gemini_key
+gemini_client = genai.Client(api_key=gemini_key)
+gemini_prompt = ""
+output = gemini(gemini_client, gemini_prompt)
+print(output.text)
