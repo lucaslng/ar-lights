@@ -1,5 +1,3 @@
-# Import the InferencePipeline object
-import ast
 import re
 from inference import InferencePipeline
 from inference.core.interfaces.camera.video_source import VideoFrame
