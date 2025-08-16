@@ -6,6 +6,7 @@ from os import getenv
 from pprint import pp
 import cv2
 import json
+import time
 
 load_dotenv()
 api_key = getenv("ROBOFLOW_API_KEY")
@@ -27,7 +28,7 @@ def my_sink(result, video_frame: VideoFrame):
 	pp(predictions)
 	print('\n\n\n')
 	for prediction in predictions:
-		data[prediction['detection_id']] = {'class': prediction['class'], 'time_in_zone': prediction['time_in_zone']} # type: ignore
+		data[prediction['detection_id']] = {'class': prediction['class'], 'time_in_zone': prediction['time_in_zone'], 'timestamp': time.time()} # type: ignore
 
 
 # initialize a pipeline object
