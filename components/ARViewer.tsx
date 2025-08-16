@@ -21,8 +21,8 @@ export default function ARViewer({ videoStream }: ARViewerProps) {
     const video = document.createElement("video");
     video.srcObject = videoStream;
     video.autoplay = true;
-    video.playsInline = true; // Important for mobile
-    video.muted = true; // Often required for autoplay to work
+    video.playsInline = true;
+    video.muted = true;
     video.play();
 
     const renderFrame = () => {
