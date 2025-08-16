@@ -44,4 +44,4 @@ pipeline.start() #start the pipeline
 pipeline.join() #wait for the pipeline thread to finish
 
 print(len(data))
-print(json.dumps(data))
+print(json.dumps(list(data.values())))
